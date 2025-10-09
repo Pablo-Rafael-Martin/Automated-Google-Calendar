@@ -1,0 +1,20 @@
+{
+    "name": "automated-tricount-bot",
+    "version": "1.0.0",
+    "description": "Whatsapp bot to generate tricount balances.",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+    },
+    "keywords": [
+        "gemini",
+        "tricount",
+        "ai",
+        "typescript"
+    ],
+    "author": "",
+    "license": "ISC"
+}
