@@ -13,6 +13,7 @@ lerna-debug.log*
 
 credentials.json
 chatbot-de-agenda.json
+notes.txt
 
 # Runtime data
 pids

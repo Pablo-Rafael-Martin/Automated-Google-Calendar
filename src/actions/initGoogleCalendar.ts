@@ -5,7 +5,6 @@ const SCOPES = ["https://www.googleapis.com/auth/calendar", "https://www.googlea
 
 export const initGoogleCalendar = async (): Promise<calendar_v3.Calendar> => {
     try {
-        console.time("Vapo 1");
         const credentials = {
             client_id: envConfig.google_client_id,
             client_email: envConfig.google_client_email,
@@ -19,8 +18,6 @@ export const initGoogleCalendar = async (): Promise<calendar_v3.Calendar> => {
         });
 
         const calendar = google.calendar({ version: "v3", auth });
-
-        console.time("vapo 2");
 
         console.log("Google Calendar API initialized:");
         return calendar;
