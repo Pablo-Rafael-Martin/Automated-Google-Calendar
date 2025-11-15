@@ -12,13 +12,11 @@ import { getAllEventsDeclaration, getAllEvents } from "./getAllEvents.js";
 import PromptSync from "prompt-sync";
 
 export default async function callGemini() {
-    // Esta função está correta
     async function chatWithGemini() {
         const userInput: string = prompt("Insira uma nova mensagem: ");
 
         if (userInput === "exit") return "break";
 
-        // Envia a mensagem do usuário (correto)
         const geminiResponse = await chat.sendMessage({
             message: userInput,
         });
@@ -72,7 +70,6 @@ export default async function callGemini() {
         }
     }
 
-    // --- Configuração Inicial (Correta) ---
     const ai = new GoogleGenAI({ apiKey: envConfig.gemini_api_key });
 
     const aiConfig: GenerateContentConfig = {
@@ -93,7 +90,6 @@ export default async function callGemini() {
 
     console.log("Chat iniciado. Digite 'exit' para sair.\n");
 
-    // --- Loop Principal (Correto) ---
     while (true) {
         const geminiReturn = await chatWithGemini();
 
