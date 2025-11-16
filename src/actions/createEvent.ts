@@ -12,7 +12,7 @@ export interface ICreateEvent {
 export const createEventDeclaration: FunctionDeclaration = {
     name: "createEvent",
     description:
-        "Cria um novo evento no Google Calendar. Requer um objeto 'requestBody' contendo os detalhes do evento, especificamente 'summary', 'description', 'start' e 'end'.",
+        "Cria um novo evento no Google Calendar. Requer um objeto 'requestBody' que deve conter obrigatoriamente 'summary', 'start' e 'end'. O campo 'description' é opcional.",
     parameters: {
         type: Type.OBJECT,
         properties: {
@@ -39,7 +39,8 @@ export const createEventDeclaration: FunctionDeclaration = {
                             },
                             start: {
                                 type: Type.OBJECT,
-                                description: "A data/hora de início do evento. Deve conter 'dateTime' OU 'date'.",
+                                description:
+                                    "A data/hora de início do evento. Deve conter 'dateTime' OU 'date'. Para eventos com hora marcada, utilize 'dateTime' no formato ISO (ex: '2023-10-31T09:00:00-03:00'), sendo **obrigatório** incluir o offset do fuso horário (padrão -03:00 para Londrina PR, a menos que especificado o contrário). Para eventos de dia inteiro, utilize 'date' no formato 'AAAA-MM-DD'. Importante: para eventos de dia inteiro, a 'date' de término ('end') deve ser o dia **SEGUINTE** ao último dia do evento.",
                                 properties: {
                                     dateTime: {
                                         type: Type.STRING,
@@ -62,7 +63,8 @@ export const createEventDeclaration: FunctionDeclaration = {
                             },
                             end: {
                                 type: Type.OBJECT,
-                                description: "A data/hora de término do evento. Deve conter 'dateTime' OU 'date'.",
+                                description:
+                                    "A data/hora de término do evento. Deve conter 'dateTime' OU 'date'. Para eventos com hora marcada, utilize 'dateTime' no formato ISO (ex: '2023-10-31T09:00:00-03:00'), sendo **obrigatório** incluir o offset do fuso horário (padrão -03:00 para Londrina PR, a menos que especificado o contrário). Para eventos de dia inteiro, utilize 'date' no formato 'AAAA-MM-DD'. Importante: para eventos de dia inteiro, a 'date' de término ('end') deve ser o dia **SEGUINTE** ao último dia do evento.",
                                 properties: {
                                     dateTime: {
                                         type: Type.STRING,
@@ -148,11 +150,7 @@ export const createEventDeclaration: FunctionDeclaration = {
  *       },
  *   });
  */
-export async function createEvent(argument: ICreateEvent) {
-    const calendarPromise = initGoogleCalendar();
-
-    const calendar = await calendarPromise;
-
+export async function createEvent(argument: ICreateEvent, calendar: calendar_v3.Calendar) {
     argument.params.calendarId = envConfig.calendarId;
 
     const functionReturn = calendar.events.insert(argument.params, argument.options);
