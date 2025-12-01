@@ -3,8 +3,8 @@ import {
     GenerateContentConfig,
     GenerateContentResponse,
     Chat,
-    Part, // O tipo da "Parte" da mensagem
-    FunctionResponse, // O tipo da *resposta* da função
+    Part,
+    FunctionResponse,
 } from "@google/genai";
 import { envConfig } from "../envs/envConfig.js";
 import { createEventDeclaration, createEvent, ICreateEvent } from "./createEvent.js";
@@ -15,10 +15,12 @@ import { deleteEvent, deleteEventDeclaration } from "./deleteEvent.js";
 import { patchEvent, patchEventDeclaration } from "./patchEvent.js";
 import { calendar_v3 } from "googleapis";
 import { getCurrentTime, getCurrentTimeDeclaration } from "./getCurrentTime.js";
+import printLine from "../utils/printLine.js";
+import * as readlineSync from "readline-sync";
 
 export default async function callGemini() {
     async function chatWithGemini() {
-        const userInput: string = prompt("Insira uma nova mensagem: ");
+        const userInput: string = readlineSync.question("Insira uma nova mensagem: ");
 
         if (!userInput) return null;
 
@@ -37,7 +39,7 @@ export default async function callGemini() {
     }
 
     async function processGeminiResponse(chat: Chat, geminiResponse: GenerateContentResponse) {
-        console.log("***************************************************************");
+        printLine("=-=");
 
         if (geminiResponse.text) {
             /**
@@ -127,8 +129,6 @@ export default async function callGemini() {
             },
         ],
     };
-
-    const prompt = PromptSync();
 
     const chat = ai.chats.create({
         model: "gemini-2.5-flash",
