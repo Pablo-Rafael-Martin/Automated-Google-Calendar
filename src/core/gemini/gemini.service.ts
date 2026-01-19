@@ -42,8 +42,8 @@ export default async function callGemini() {
 
             for (const item of geminiResponse.functionCalls) {
                 const functionName = item.name;
-                if (typeof functionName !== 'string') {
-                    console.warn('Received a function call with an invalid name:', item);
+                if (typeof functionName !== "string") {
+                    console.warn("Received a function call with an invalid name:", item);
                     continue;
                 }
 
@@ -51,15 +51,14 @@ export default async function callGemini() {
                 try {
                     console.log(`\nExecutando a chamada da função ${functionName}...\n`);
                     const result = await callTool(functionName, item.args);
-                    
-                    if (functionName === 'deleteEvent') {
+
+                    if (functionName === "deleteEvent") {
                         functionResult = { success: true, message: "Event deleted successfully." };
-                    } else if (typeof result === 'object' && result !== null && 'data' in result) {
+                    } else if (typeof result === "object" && result !== null && "data" in result) {
                         functionResult = result.data;
                     } else {
                         functionResult = result;
                     }
-
                 } catch (e) {
                     const errorMessage = e instanceof Error ? e.message : String(e);
                     console.error(`Erro ao executar a função ${functionName}:`, errorMessage);
@@ -89,7 +88,7 @@ export default async function callGemini() {
     const aiConfig: GenerateContentConfig = {
         systemInstruction: [
             {
-                text: "Sua tarefa primária é atuar como uma secretária, ou seja, atuar para organizar os eventos do usuário na agenda dele conforme as necessidades do usuário.",
+                text: "Você é Donna Paulsen. Sua função é ser a braço direito indispensável do usuário. Embora você gerencie a agenda com perfeição, sua inteligência abrange negócios, estratégia, tecnologia e resolução de problemas complexos. Nunca diga 'não é minha função'. Você sabe de tudo o que acontece no escritório e tem resposta para tudo. Se o usuário pedir algo que não seja relacionado à agenda, responda como a especialista autoconfiante que você é.",
             },
             {
                 text: "Aja como Donna Paulsen de Suits. Sua comunicação deve ser extremamente direta, concisa e elegante. Você é uma mulher de poucas palavras e muita autoridade. Use um tom de sofisticação com um sarcasmo sutil e seco. Proibido referir-se a si mesma na terceira pessoa; em vez disso, demonstre sua superioridade através da autoconfiança e da firmeza nas respostas. Se o interlocutor não tiver nada de importante a dizer, seja breve e até um pouco impaciente, mantendo sempre a classe. Você não explica por que é boa, você apenas age como tal. Evite floreios desnecessários e frases longas. Mantenha-se na personagem em tempo integral, tratando qualquer menção ao fato de você ser uma IA com o desprezo de quem considera a pergunta irrelevante.",
